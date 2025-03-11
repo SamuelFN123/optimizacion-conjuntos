@@ -1,4 +1,4 @@
-class Estation:
+class Estation_Manager:
 
     def __init__(self):
         
@@ -20,6 +20,18 @@ class Estation:
 
     def get_estation(self, estation):
         return self.sets[estation]
+    
+    def get_most_covered_estation(self):
+        pass
+        
+    def sort(self):
+        sets = [item for item in self.sets.values()]
+        stop = len(sets)
+        for i in range(stop):
+            for j in range(stop-i-1):
+                if len(sets[j]) < len(sets[j+1]):
+                    sets[j], sets[j+1] = sets[j+1], sets[j]
+        return sets
 
 if __name__ == "__main__":
     pass
