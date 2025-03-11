@@ -17,32 +17,27 @@ class Estation_Manager:
             "k-thirteen": {"MO", "AR"},
         }
         self.estations = [Estation(name, countries) for name, countries in sets.items()]
+        # Orednarlos de más estados a menos
+        self.estations.sort(key= lambda estation: len(estation.countries), reverse=True)
 
 
     def __getitem__(self, name):
         for estation in self.estations:
             if estation.name == name:
                 return estation
+        raise IndexError(f"There's no estation with name: '{name}'")
 
     def get_most_covered_estation(self):
         pass
-
-
-    def sort(self):
-        sets = [item for item in self.sets.values()]
-        stop = len(sets)
-        for i in range(stop):
-            for j in range(stop-i-1):
-                if len(sets[j]) < len(sets[j+1]):
-                    sets[j], sets[j+1] = sets[j+1], sets[j]
-        return sets
-
 
 
 class Estation:
     def __init__(self, name, countries):
         self.name = name
         self.countries = countries
+    
+    def __repr__(self):
+        return f"{self.name}: {self.countries}"
 
 
 if __name__ == "__main__":
