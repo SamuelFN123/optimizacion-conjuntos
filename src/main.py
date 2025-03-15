@@ -18,7 +18,7 @@ class Estation_Manager:
         }
         self.estations = [Estation(name, countries) for name, countries in sets.items()]
         # Orednarlos de más estados a menos
-        self.estations.sort(key= lambda estation: len(estation.countries), reverse=True)
+        self.estations.sort(reverse=True)
 
 
     def __getitem__(self, name):
@@ -38,6 +38,9 @@ class Estation:
     
     def __repr__(self):
         return f"{self.name}: {self.countries}"
+    
+    def __lt__(self, other):
+        return len(self.countries) < len(other.countries)
 
 
 if __name__ == "__main__":
