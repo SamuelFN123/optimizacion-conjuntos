@@ -35,12 +35,19 @@ class Station_Manager:
         else:
             raise IndexError(f"There's no station with name: '{name}'")
     
-    def pop_best_station(self, covered_states):
-        pass
-
-    def pop_first_station(self):
-        station = self._pop_station(0)
-        return station
+    def pop_best_station(self, states_covered):
+        stations = self.stations.copy()
+        for station in stations:
+            station.states -= states_covered
+        best = 0
+        best_station = None
+        for station in stations:
+            if station.states and station > best:
+                best = len(station.states)
+                best_station= station
+        
+        index = self.stations.index(best_station)
+        return self._pop_station(index)
 
     def _pop_station(self, index):
         station = self.stations.pop(index)
@@ -64,7 +71,16 @@ class Station:
         return f"{self.name}: {self.states}"
     
     def __lt__(self, other):
-        return len(self.states) < len(other.states)
+        if isinstance(other, Station):
+            return len(self.states) < len(other.states)
+        else:
+            return len(self.states) < other
+
+    def __gt__(self, other):
+        if isinstance(other, Station):
+            return len(self.states) > len(other.states)
+        else:
+            return len(self.states) > other
 
 
 if __name__ == "__main__":
@@ -73,7 +89,7 @@ if __name__ == "__main__":
     states_covered = set()
     stations = []
     while states_covered != all_states:
-        station = manager.pop_first_station()
+        station = manager.pop_best_station(states_covered)
         if not station.states.issubset(states_covered):
             states_covered.update(station.states)
             stations.append(station.name)
