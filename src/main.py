@@ -30,18 +30,17 @@ class Estation_Manager:
     def __getitem__(self, name):
         index = [i for i, estation in enumerate(self.estations) if estation.name == name]
         if index:
-            station = self.pop_estation(index[0])
+            station = self._pop_estation(index[0])
             return station
         else:
             raise IndexError(f"There's no estation with name: '{name}'")
 
-    def get_most_covered_estation(self):
-        station = self.pop_estation(0)
+    def pop_most_covered_station(self):
+        station = self._pop_estation(0)
         return station
 
-    def pop_estation(self, index):
+    def _pop_estation(self, index):
         station = self.estations.pop(index)
-        self.estations.sort(reverse=True)
         return station
 
     def get_all_states(self):
@@ -71,7 +70,7 @@ if __name__ == "__main__":
     states_covered = set()
     stations = []
     while states_covered != all_states:
-        station = manager.get_most_covered_estation()
+        station = manager.pop_most_covered_station()
         if not station.states.issubset(states_covered):
             states_covered.update(station.states)
             stations.append(station.name)
