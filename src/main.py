@@ -54,7 +54,7 @@ class Estation_Manager:
         return len(self.estations)
 
 class Estation:
-    def __init__(self, name, states):
+    def __init__(self, name:str, states:set[str]):
         self.name = name
         self.states = states
     
@@ -66,4 +66,18 @@ class Estation:
 
 
 if __name__ == "__main__":
-    pass
+    manager = Estation_Manager()
+    all_states = manager.get_all_states()
+    states_covered = set()
+    stations = []
+    while states_covered != all_states:
+        station = manager.get_most_covered_estation()
+        if not station.states.issubset(states_covered):
+            states_covered.update(station.states)
+            stations.append(station.name)
+    states_covered = list(states_covered)
+    states_covered.sort()
+    all_states  = list(all_states)
+    all_states.sort()
+    print(f"States to cover: {", ".join(all_states)}\nStations needed: {", ".join(stations)}\nStates covered:  {", ".join(states_covered)}")
+    
