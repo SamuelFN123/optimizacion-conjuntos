@@ -1,4 +1,4 @@
-class Estation_Manager:
+class Station_Manager:
 
     def __init__(self):
         self.sets = {
@@ -16,43 +16,46 @@ class Estation_Manager:
             "k-twelve": {"LA"},
             "k-thirteen": {"MO", "AR"},
         }
-        self._create_estations()
+        self._create_stations()
 
-    def _create_estations(self):
-        self.estations = [Estation(name, states) for name, states in self.sets.items()]
+    def _create_stations(self):
+        self.stations = [Station(name, states) for name, states in self.sets.items()]
         # Orednarlos de más estados a menos
-        self.estations.sort(reverse=True)
+        self.stations.sort(reverse=True)
     
-    def reset_estations(self):
-        self._create_estations()
+    def reset_stations(self):
+        self._create_stations()
 
 
     def __getitem__(self, name):
-        index = [i for i, estation in enumerate(self.estations) if estation.name == name]
+        index = [i for i, station in enumerate(self.stations) if station.name == name]
         if index:
-            station = self._pop_estation(index[0])
+            station = self._pop_station(index[0])
             return station
         else:
-            raise IndexError(f"There's no estation with name: '{name}'")
+            raise IndexError(f"There's no station with name: '{name}'")
+    
+    def pop_best_station(self, covered_states):
+        pass
 
-    def pop_most_covered_station(self):
-        station = self._pop_estation(0)
+    def pop_first_station(self):
+        station = self._pop_station(0)
         return station
 
-    def _pop_estation(self, index):
-        station = self.estations.pop(index)
+    def _pop_station(self, index):
+        station = self.stations.pop(index)
         return station
 
     def get_all_states(self):
         all_states = set()
-        for station in self.estations:
+        for station in self.stations:
             all_states.update(station.states)
         return(all_states)
     
     def __len__(self):
-        return len(self.estations)
+        return len(self.stations)
 
-class Estation:
+class Station:
     def __init__(self, name:str, states:set[str]):
         self.name = name
         self.states = states
@@ -65,12 +68,12 @@ class Estation:
 
 
 if __name__ == "__main__":
-    manager = Estation_Manager()
+    manager = Station_Manager()
     all_states = manager.get_all_states()
     states_covered = set()
     stations = []
     while states_covered != all_states:
-        station = manager.pop_most_covered_station()
+        station = manager.pop_first_station()
         if not station.states.issubset(states_covered):
             states_covered.update(station.states)
             stations.append(station.name)
