@@ -16,7 +16,7 @@ class Estation_Manager:
             "k-twelve": {"LA"},
             "k-thirteen": {"MO", "AR"},
         }
-        self.estations = [Estation(name, countries) for name, countries in sets.items()]
+        self.estations = [Estation(name, states) for name, states in sets.items()]
         # Orednarlos de más estados a menos
         self.estations.sort(reverse=True)
 
@@ -32,15 +32,15 @@ class Estation_Manager:
 
 
 class Estation:
-    def __init__(self, name, countries):
+    def __init__(self, name, states):
         self.name = name
-        self.countries = countries
+        self.states = states
     
     def __repr__(self):
-        return f"{self.name}: {self.countries}"
+        return f"{self.name}: {self.states}"
     
     def __lt__(self, other):
-        return len(self.countries) < len(other.countries)
+        return len(self.states) < len(other.countries)
 
 
 if __name__ == "__main__":
