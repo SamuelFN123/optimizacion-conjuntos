@@ -36,15 +36,14 @@ class Station_Manager:
             raise IndexError(f"There's no station with name: '{name}'")
     
     def pop_best_station(self, states_covered):
-        stations = self.stations.copy()
-        for station in stations:
-            station.states -= states_covered
-        best = 0
         best_station = None
-        for station in stations:
-            if station.states and station > best:
-                best = len(station.states)
-                best_station= station
+        max_new_states = 0
+
+        for station in self.stations:
+            new_states = station.states - states_covered
+            if len(new_states) > max_new_states:
+                max_new_states = len(new_states)
+                best_station = station
         
         index = self.stations.index(best_station)
         return self._pop_station(index)
