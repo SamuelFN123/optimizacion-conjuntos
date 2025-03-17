@@ -92,5 +92,5 @@ if __name__ == "__main__":
         if not station.states.issubset(states_covered):
             states_covered.update(station.states)
             stations.append(station.name)
-    print(f"States to cover: {", ".join(all_states)}\nStations needed: {", ".join(stations)}\nStates covered:  {", ".join(states_covered)}")
+    print(f"States to cover: {", ".join(all_states)}\nStates covered:  {", ".join(states_covered)}\nStations needed: {", ".join(stations)}")
     
